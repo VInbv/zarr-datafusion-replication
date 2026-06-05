@@ -1,12 +1,12 @@
 version: 1
 project:
-  title: "{{REPO_NAME}}"
+  title: "zarr-datafusion-replication"
   authors:
-    - name: "{{AUTHOR_NAME}}"
-      orcid: "{{AUTHOR_ORCID}}"
+    - name: "Vru Inbvi"
+      orcid: "https://orcid.org/0009-0001-0559-6494"
       affiliations:
-        - "{{AUTHOR_AFFILIATION}}"
-  github: https://github.com/{{REPO_ORG}}/{{REPO_NAME}}
+        - "Independent researcher"
+  github: https://github.com/VInbv/zarr-datafusion-replication
   license: MIT
   toc:
     - file: index.md
@@ -16,8 +16,4 @@ project:
     - file: notebooks/04_figures.ipynb
     - file: nanopubs/README.md
 site:
-  title: "{{REPO_NAME}}"
-# IMPORTANT: do NOT set base_url here — MyST silently ignores the key.
-# BASE_URL is set in .github/workflows/jupyter-book.yml as an env var on the
-# `myst build` step, derived from the GitHub repo name. See
-# docs/cicd-conventions.md.
+  title: "zarr-datafusion-replication"
