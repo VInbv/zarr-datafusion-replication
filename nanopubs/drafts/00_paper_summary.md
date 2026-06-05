@@ -1,40 +1,67 @@
 # Paper summary
 
-> This is a working scratchpad for the paper-analysis phase. The output of this file feeds the Quote / AIDA / Claim drafts. It is not itself a nanopub.
+**Working scratchpad** for the paper-analysis phase.  
+This file feeds the Quote / AIDA / Claim drafts. It is **not** itself a nanopub.
 
-**Reference paper:** {{PAPER_TITLE}}
+---
 
-**DOI:** {{PAPER_DOI}}
+**Reference**  
+**Prototype under replication:** `zarr-datafusion-search`
 
-**Authors:** _add._
+- **Repo**: https://github.com/developmentseed/zarr-datafusion-search
+- **Docs**: https://developmentseed.org/zarr-datafusion-search/
+- **Authors / Org**: Development Seed (Kyle Barron, etc.)
+- **License**: MIT
+- **First commit**: 2025-09-08
+- **Latest release**: `py-v0.1.2-beta.1` (2026-05-20)
+- **DOI**: None (prototype, not archived on Zenodo)
 
-**Year:** {{PAPER_YEAR}}
+**Underlying concept**  
+Earthmover whitepaper *"Level 2 Data Collections in Zarr / Icechunk"*
 
-## Headline claim
+---
 
-The single sentence in the paper that this replication tests. Should be one of the paper's core empirical assertions, not a definition or framing statement.
+## Headline claim (Claim 1 — Heterogeneous Arrays)
 
-> _Drafted from PDF in `paper/` — verify verbatim before promoting to `01_quote.md`._
+> With the advent of VirtualiZarr we are often representing chunks from source files that we don't control. For Level 2 and Level 3 datasets like Sentinel 2 this means that virtual Zarr arrays have varying `dtypes`, `codecs` and `crs` values.  
+> If the source arrays are heterogeneous, they cannot be concatenated along a dimension to form a single datacube. Because of this we need an alternative to select or discover these arrays other than the normal coordinate or dimensional slicing we use with datacubes.
 
-## Methodology summary
+### Decomposed into two testable sub-claims
 
-A 5-10 line summary of how the original paper made the claim. Cover:
+1. **Non-concatenability**: Virtual Zarr arrays built from heterogeneous sources (different `dtype`, `codec`, `crs`, shapes) cannot be reliably concatenated along a dimension into a single coherent datacube.
+2. **Metadata-search necessity**: Because of (1), an alternative discovery mechanism (metadata stored as 1-D arrays in a `meta` group + DataFusion SQL queries) is needed and sufficient.
 
-- **Data sources:** what data, how much, what coverage.
-- **Statistical / ML model:** what the headline regression / classifier / test is.
-- **Sample sizes:** observations, species, regions, time windows.
-- **Headline numerical result:** the number(s) the replication will compare against.
+---
 
-## Replication design choice
+## How the prototype solves it
 
-Which of the three FORRT Study Types fits this replication?
+- Stores metadata as 1-D Zarr arrays inside a `meta/` group (each field = one array, chunks aligned like Parquet row-groups).
+- Uses a custom DataFusion `TableProvider` to expose this `meta` group as a queryable SQL table.
+- Supports efficient filtering on `datetime`, `bbox`, `collection`, etc.
+- Optional R-tree spatial indexes.
 
-- [ ] **Reproduction Study** — direct reproduction: same methodology, same tools.
-- [ ] **Replication Study** — replication with different methodology or conditions.
-- [ ] **Reproduction/Replication Study** — both.
+---
 
-Brief justification for the choice (one paragraph).
+## Proposed replication strategy
 
-## Notes for downstream drafts
+**Study Type**: Reproduction/Replication Study
 
-- _Anything specific to this paper that affects the Quote / AIDA / Claim wording._
+**Plan**:
+- Use public Sentinel-2 L2A scenes (multiple UTM zones → different CRS, different bands → different dtypes)
+- Build virtual Zarr references with VirtualiZarr
+- Demonstrate that concatenation fails or is semantically problematic (Sub-claim 1)
+- Implement the `meta` group + DataFusion SQL approach and show that metadata-based discovery works (Sub-claim 2)
+
+---
+
+## Open decisions (to be confirmed)
+
+1. Exact anchoring of the Quote (prototype README vs Earthmover whitepaper)
+2. Scope of data for the demonstration (number of scenes, AOI, etc.)
+3. Whether we want CI execution or local-only for heavy steps
+
+---
+
+**Next files to produce**:
+- `01_quote.md`
+- `nanopubs/drafts/claim-1-aida.md` etc.
