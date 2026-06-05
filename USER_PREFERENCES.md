@@ -7,11 +7,11 @@ This file is loaded by `CLAUDE.md` and overrides nothing in `CLAUDE.md` or `DOMA
 ## Identity
 
 ```yaml
-name: "{{AUTHOR_NAME}}"
-email: "{{AUTHOR_EMAIL}}"
-orcid: "{{AUTHOR_ORCID}}"
-github_username: "{{GITHUB_USERNAME}}"
-affiliation: "{{AUTHOR_AFFILIATION}}"
+name: "Vru Inbvi"
+email: "vru.inbvi@gmail.com"
+orcid: "https://orcid.org/0009-0001-0559-6494"
+github_username: "VInbv"
+affiliation: "Independent researcher"
 ```
 
 For git commits, configure the local repo (run once after cloning):
